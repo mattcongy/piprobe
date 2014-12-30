@@ -10,6 +10,9 @@ This python script get temperature from a prob installed on a Raspberry PI, and 
 Databases supported :
  . sqlite
 
+**Warning** : you must have Python 3 or superior installed on your local machine in order to launch this program.
+To install it on raspberry pi , please run `sudo apt-get install python3-pip`
+
 # How to use it
 
 
