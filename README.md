@@ -27,4 +27,18 @@ To install it, please follow instructions :
 
 
 
+# Usage
+## Test
+
+To test the solution, you can run a load test. This is not taking value from the probe, put insert in into database/sdtout or file like you set in the arguments of the program.
+
+`python3 pyprobe.py --output=database --test`
+
+** Important ** '--output=' parameter must be set at first level.
+
+
+## Get value from probe and send to stdout
+`python3 pyprobe.py --output=stdout --probe`
+
+
 
