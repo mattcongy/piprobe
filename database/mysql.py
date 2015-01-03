@@ -39,4 +39,16 @@ def saveTempToMySQL(temperature):
     conn.commit()
     conn.close()
 
+def saveExternalTempToMySQL(pyTemperature):
+    conn = pymysql.connect(host=mysql_host, unix_socket='/tmp/mysql.sock', user=mysql_user, passwd=mysql_passwd, db=mysql_db)
 
+    cur = conn.cursor()
+    sql_string = "INSERT INTO temperature.temperatures_external(idtemperatures,temperaturescol,humidity,pressure) VALUES ('{date}',{temp},{hum},{press})"
+    print(pyTemperature.pressure)
+    sql_formatted = sql_string.format(date=pyTemperature.date,temp=pyTemperature.temperature,press=pyTemperature.pressure,hum=pyTemperature.humidity)
+    print(sql_formatted)
+    cur.execute(sql_formatted)
+
+    cur.close()
+    conn.commit()
+    conn.close()

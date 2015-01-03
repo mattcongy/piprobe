@@ -2,8 +2,12 @@
 # Main file.
 
 import sys, getopt, os, datetime
+
+from pyexternal import py_external
+import pyowm
 from database import mysql
 from pyserial import pySerial
+
 
 
 # Version
@@ -24,6 +28,7 @@ class py_probe(object):
         print("Options : ")
         print(" -h, --help     : Print help documentation")
         print(" -t, --test     : Get a mock temperature")
+        print(" -e, --external : Get External temperature")
 
 
 
@@ -54,7 +59,7 @@ def main(argv):
        try:
 
           probe = py_probe()
-          opts, args = getopt.getopt(argv,"hto:",["help","test","output="])
+          opts, args = getopt.getopt(argv,"hteo:",["help","test","external","output="])
 
        except getopt.GetoptError as err:
           print("An error has occured :",err)
@@ -73,6 +78,14 @@ def main(argv):
                 else:
                     print("Ouptut format not recongnized. Accepted value are 'stdout', 'database' or 'file'")
 
+            elif opt in ('-e',"--external"):
+                print("External")
+                dateSet = datetime.datetime(2015,1,1,15,00,00)
+                pyExternal = py_external()
+                pyExternal.getDataAPI()
+                #print("Temperature at pyProbe")
+                #pyExternal.pyTemperature.printTemperature()
+                mysql.saveExternalTempToMySQL(pyExternal.pyTemperature)
 
             elif opt in ('-t',"--test"):
                 # Load multiples data on database, simulate one month of data (december 2014)

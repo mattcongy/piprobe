@@ -34,7 +34,7 @@ To test the solution, you can run a load test. This is not taking value from the
 
 `python3 pyprobe.py --output=database --test`
 
-** Important ** '--output=' parameter must be set at first level.
+**Important** '--output=' parameter must be set at first level.
 
 
 ## Get value from probe and send to stdout
