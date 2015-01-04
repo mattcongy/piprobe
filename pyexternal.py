@@ -17,9 +17,10 @@ from pyserial import pySerial
 from imports.pyTemperature import pyTemperature
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q="
 DEFAULT_CITY = "Meyreuil, France"
-API_KEY = "4ca5e2bebb63f72d4cc5564300cf68d5"
+API_KEY = "YOUR_OPENWEATHER_API_KEY"
 
-STATION_URL = "http://api.wunderground.com/api/8acdb762e995fcf5/conditions/q/pws:IMEYREUI2.json"
+WUNDERGROUND_API = "YOUR_API_KEY"
+STATION_URL = "http://api.wunderground.com/api/{API_KEY}/conditions/q/pws:IMEYREUI2.json"
 
 class py_external(object):
     def __init__(self):
@@ -35,7 +36,7 @@ class py_external(object):
         #json_data = json.load(json_file)
         #json_file.close()
 
-        req = urllib.request.Request(STATION_URL)
+        req = urllib.request.Request(STATION_URL.format(API_KEY=WUNDERGROUND_API))
         response = urllib.request.urlopen(req).read().decode("utf-8")
         json_data=json.loads(response)
 
