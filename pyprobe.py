@@ -82,7 +82,7 @@ def main(argv):
                 print("External")
                 dateSet = datetime.datetime(2015,1,1,15,00,00)
                 pyExternal = py_external()
-                pyExternal.getDataAPI()
+                pyExternal.getDataFromWunderground()
                 #print("Temperature at pyProbe")
                 #pyExternal.pyTemperature.printTemperature()
                 mysql.saveExternalTempToMySQL(pyExternal.pyTemperature)

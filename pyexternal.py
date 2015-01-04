@@ -10,6 +10,8 @@ import urllib.request
 import json
 import pyowm
 from datetime import datetime
+from urllib.request import urlopen
+import json
 
 from pyserial import pySerial
 from imports.pyTemperature import pyTemperature
@@ -17,12 +19,40 @@ BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q="
 DEFAULT_CITY = "Meyreuil, France"
 API_KEY = "4ca5e2bebb63f72d4cc5564300cf68d5"
 
+STATION_URL = "http://api.wunderground.com/api/8acdb762e995fcf5/conditions/q/pws:IMEYREUI2.json"
 
 class py_external(object):
     def __init__(self):
         super(py_external, self).__init__()
         self.pyTemperature = None
 
+    def getDataFromWunderground(self):
+
+        #f = urlopen(STATION_URL)
+
+        # DEBUG ONLY
+        #json_file=open("pws_IMEYREUI2.json")
+        #json_data = json.load(json_file)
+        #json_file.close()
+
+        req = urllib.request.Request(STATION_URL)
+        response = urllib.request.urlopen(req).read().decode("utf-8")
+        json_data=json.loads(response)
+
+        parsed_json = json_data
+        location = parsed_json['current_observation']['display_location']['city']
+        w_temp = parsed_json['current_observation']['temp_c']
+        humidity = parsed_json['current_observation']['relative_humidity']
+        humidity_split = humidity.split('%')
+        w_hum = int(humidity_split[0])
+        w_pres = parsed_json['current_observation']['pressure_mb']
+
+        #print("Current temperature in %s is: %s" % (location, w_temp))
+        #print("Humidity is %d" % (w_hum))
+        #print("Pressure is %s" % (w_pres))
+
+        dateNow = datetime.now()
+        self.pyTemperature = pyTemperature(dateNow,w_temp,w_pres,w_hum)
 
     def getDataAPI(self):
         owm = pyowm.OWM(API_KEY)
